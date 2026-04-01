@@ -1,0 +1,16 @@
+# deps
+node_modules/
+
+# env
+.env
+.env.*
+
+# build
+dist/
+build/
+.next/
+out/
+
+# IDE
+.idea/
+.vscode/
