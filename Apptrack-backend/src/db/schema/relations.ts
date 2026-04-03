@@ -3,12 +3,14 @@ import { accounts, contacts } from "./accounts";
 import { productCatalog } from "./products";
 import { deals, dealLineItems } from "./deals";
 import { invoices, invoiceIssues } from "./invoices";
+import { branches } from "./wholesale";
 
 export const accountsRelations = relations(accounts, ({ many }) => ({
     contacts: many(contacts),
     deals: many(deals),
     invoices: many(invoices),
     invoiceIssues: many(invoiceIssues),
+    branches: many(branches),
 }));
 
 export const contactsRelations = relations(contacts, ({ one }) => ({
@@ -16,6 +18,22 @@ export const contactsRelations = relations(contacts, ({ one }) => ({
         fields: [contacts.accountId],
         references: [accounts.id],
     }),
+    // Optional: set when this contact belongs to a specific branch (wholesale customers)
+    branch: one(branches, {
+        fields: [contacts.branchId],
+        references: [branches.id],
+    }),
+}));
+
+// ── Wholesale branch relations ───────────────────────────────────────────────
+
+export const branchesRelations = relations(branches, ({ one, many }) => ({
+    account: one(accounts, {
+        fields: [branches.accountId],
+        references: [accounts.id],
+    }),
+    contacts:  many(contacts),
+    lineItems: many(dealLineItems),
 }));
 
 export const productCatalogRelations = relations(productCatalog, ({ many }) => ({
@@ -41,6 +59,11 @@ export const dealLineItemsRelations = relations(dealLineItems, ({ one }) => ({
     productCatalog: one(productCatalog, {
         fields: [dealLineItems.productCatalogId],
         references: [productCatalog.id],
+    }),
+    // Optional: set when this line item is attributed to a specific branch (wholesale)
+    branch: one(branches, {
+        fields: [dealLineItems.branchId],
+        references: [branches.id],
     }),
 }));
 

@@ -47,6 +47,13 @@ const AccountPatchSchema = z.object({
     originalPurchaseDate: z.string().optional().nullable(),
     nextRenewalDate: z.string().optional().nullable(),
     accountLostDate: z.string().optional().nullable(),
+    // Wholesale fields
+    companyIdExternal: z.string().optional().nullable(),
+    erpSystem:         z.string().optional().nullable(),
+    procurementModel:  z.string().optional().nullable(),
+    leadStatus:        z.string().optional().nullable(),
+    priorityTier:      z.string().optional().nullable(),
+    needsReview:       z.boolean().optional().nullable(),
 });
 
 // ── PATCH /accounts/:id ──────────────────────────────────────────────────────
@@ -61,13 +68,13 @@ router.patch('/:id', async (req: Request, res: Response) => {
             return res.status(400).json({ error: 'No fields to update' });
         }
 
-        const [existing] = await db.select().from(accounts).where(eq(accounts.id, id));
+        const [existing] = await db.select().from(accounts).where(eq(accounts.id, String(id)));
         if (!existing) return res.status(404).json({ error: 'Account not found' });
 
         const [updated] = await db
             .update(accounts)
             .set(parsed.data)
-            .where(eq(accounts.id, id))
+            .where(eq(accounts.id, String(id)))
             .returning();
 
         return res.json({ data: updated });

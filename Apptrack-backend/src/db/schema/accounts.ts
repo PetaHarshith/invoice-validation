@@ -42,6 +42,18 @@ export const accounts = pgTable(
         accountLostDate: date("account_lost_date"),
         totalSeats: integer("total_seats"),
 
+        // ── Wholesale distribution fields (nullable — backward compatible) ──────
+        // companyIdExternal: preserves "WD-001" from import; used for idempotent re-imports
+        companyIdExternal: text("company_id_external"),
+        // ERP system the parent company runs (Prophet 21, SAP, NetSuite, etc.)
+        erpSystem: text("erp_system"),
+        // How purchasing decisions are made across branches
+        procurementModel: text("procurement_model"),  // Centralized / Decentralized / Hybrid
+        // Sales qualification fields
+        leadStatus:   text("lead_status"),             // New / Working / Qualified / Closed Won
+        priorityTier: text("priority_tier"),           // A / B / C
+        needsReview:  boolean("needs_review"),
+
         ...timestamps,
     },
     (table) => ({
@@ -75,6 +87,18 @@ export const contacts = pgTable(
 
         isPrimaryContact: boolean("is_primary_contact").default(false).notNull(),
         isBillingContact: boolean("is_billing_contact").default(false).notNull(),
+
+        // ── Wholesale branch fields (nullable — backward compatible) ────────────
+        // branchId links this contact to a specific branch location.
+        // No .references() here — branches imports accounts, so referencing branches
+        // from accounts.ts would create a circular import. The FK relation is
+        // declared in relations.ts and the DB constraint is enforced via db:push.
+        branchId: uuid("branch_id"),
+        // External ID from the import file (e.g. "CT-001-01") for idempotent re-imports
+        contactIdExternal: text("contact_id_external"),
+        // Decision role from wholesale import: Champion / Economic Buyer / Influencer / End User
+        decisionRole: text("decision_role"),
+        phone: text("phone"),
 
         ...timestamps,
     },

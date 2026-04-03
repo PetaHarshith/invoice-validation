@@ -13,6 +13,7 @@
     "db:push": "drizzle-kit push",
     "db:seed": "tsx src/db/seed.ts",
     "import:product-catalog": "tsx scripts/import-product-catalog.ts",
+    "import:wholesale": "tsx scripts/import-wholesale.ts",
     "import:accounts": "tsx scripts/import-accounts.ts",
     "import:deals": "tsx scripts/import-deals.ts",
     "import:enrich-tracker": "tsx scripts/enrich-deals-tracker.ts",
@@ -34,6 +35,7 @@
     "drizzle-orm": "^0.45.1",
     "express": "^5.2.1",
     "postgres": "^3.4.8",
+    "xlsx": "^0.18.5",
     "zod": "^4.3.6"
   },
   "devDependencies": {

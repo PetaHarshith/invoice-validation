@@ -4,6 +4,11 @@
  * Computes whether a deal has all the information finance needs to safely invoice.
  * Called after every POST /deals and PUT /deals/:id.
  * Also used by the stage gate to block premature ready_for_invoice transitions.
+ *
+ * WHOLESALE EXTENSION (backward compatible):
+ *   If branches are provided, per-branch readiness is computed in addition to the
+ *   deal-level checks. The deal is READY only when ALL branches are ready.
+ *   Existing deals with no branches use the original single-level logic unchanged.
  */
 
 export type ReadinessDealInput = {
@@ -36,6 +41,27 @@ export type ReadinessResult = {
     warnings: string[];
 };
 
+// ── Wholesale / branch types ─────────────────────────────────────────────────
+
+/** Minimal branch fields needed by the readiness checker */
+export type ReadinessBranchInput = {
+    id: string;
+    name: string;
+    billingEntityName?: string | null;
+    // Contacts scoped to this branch (is_billing_contact flag)
+    contacts: ReadinessContact[];
+    // Line items attributed to this branch (deal_line_items.branch_id = branch.id)
+    lineItems: ReadinessLineItem[];
+};
+
+export type BranchReadinessResult = {
+    branchId:   string;
+    branchName: string;
+    status:     'ready' | 'warning' | 'blocked';
+    blockers:   string[];
+    warnings:   string[];
+};
+
 /** Returns true only if the string is a non-empty, non-zero numeric value */
 function hasValue(v: string | null | undefined): boolean {
     if (v == null || v.trim() === '') return false;
@@ -43,11 +69,44 @@ function hasValue(v: string | null | undefined): boolean {
     return !isNaN(n) && n > 0;
 }
 
+/**
+ * Compute readiness for a single branch.
+ * Called once per branch when the deal has wholesale branches.
+ *
+ * Per-branch requirements:
+ *   1. billingEntityName must be set (so finance knows what legal entity to invoice)
+ *   2. At least one contact on this branch must be marked as billing contact
+ *   3. At least one line item must be attributed to this branch
+ */
+function computeBranchReadiness(branch: ReadinessBranchInput): BranchReadinessResult {
+    const blockers: string[] = [];
+    const warnings: string[] = [];
+
+    if (!branch.billingEntityName?.trim()) {
+        blockers.push('billingEntityName — no legal billing entity set for this branch');
+    }
+
+    const hasBillingContact = branch.contacts.some((c) => c.isBillingContact);
+    if (!hasBillingContact) {
+        blockers.push('billingContact — no billing contact assigned to this branch');
+    }
+
+    if (branch.lineItems.length === 0) {
+        blockers.push('lineItems — no line items attributed to this branch');
+    }
+
+    const status: BranchReadinessResult['status'] =
+        blockers.length > 0 ? 'blocked' : warnings.length > 0 ? 'warning' : 'ready';
+
+    return { branchId: branch.id, branchName: branch.name, status, blockers, warnings };
+}
+
 export function computeReadiness(
     deal: ReadinessDealInput,
     contacts: ReadinessContact[],
-    lineItems: ReadinessLineItem[]
-): ReadinessResult {
+    lineItems: ReadinessLineItem[],
+    branches?: ReadinessBranchInput[]
+): ReadinessResult & { branches?: BranchReadinessResult[] } {
     const missingFields: string[] = [];
     const warnings: string[] = [];
 
@@ -73,15 +132,21 @@ export function computeReadiness(
         missingFields.push('contractAttached — no signed contract on record');
     }
 
-    // 5. Billing contact — finance must know who receives invoices
-    const hasBillingContact = contacts.some((c) => c.isBillingContact);
-    if (!hasBillingContact) {
-        missingFields.push('billingContact — no contact marked as billing contact for this account');
-    }
+    // 5 & 6: For wholesale deals with branches, billing contacts and line items are
+    // validated per-branch below. For standard (non-branch) deals, check at deal level.
+    const hasBranches = branches && branches.length > 0;
 
-    // 6. Line items — finance must know what was actually purchased
-    if (lineItems.length === 0) {
-        missingFields.push('lineItems — no products/SKUs attached to this deal');
+    if (!hasBranches) {
+        // 5. Billing contact — finance must know who receives invoices
+        const hasBillingContact = contacts.some((c) => c.isBillingContact);
+        if (!hasBillingContact) {
+            missingFields.push('billingContact — no contact marked as billing contact for this account');
+        }
+
+        // 6. Line items — finance must know what was actually purchased
+        if (lineItems.length === 0) {
+            missingFields.push('lineItems — no products/SKUs attached to this deal');
+        }
     }
 
     // ── WARNING checks (advisory — deal can proceed but finance should review) ─
@@ -122,6 +187,19 @@ export function computeReadiness(
         }
     }
 
+    // ── Branch-level readiness (wholesale deals only) ────────────────────────
+    let branchResults: BranchReadinessResult[] | undefined;
+    if (hasBranches) {
+        branchResults = branches!.map(computeBranchReadiness);
+        const anyBranchBlocked  = branchResults.some((b) => b.status === 'blocked');
+        const anyBranchWarning  = branchResults.some((b) => b.status === 'warning');
+        if (anyBranchBlocked) {
+            missingFields.push('branches — one or more branches have missing billing information');
+        } else if (anyBranchWarning) {
+            warnings.push('branches — one or more branches have advisory warnings');
+        }
+    }
+
     // ── Determine overall readiness status ──────────────────────────────────
     const readinessStatus: ReadinessResult['readinessStatus'] =
         missingFields.length > 0
@@ -130,7 +208,10 @@ export function computeReadiness(
                 ? 'warning'
                 : 'ready';
 
-    return { readinessStatus, missingFields, warnings };
+    // Only include branches key when it was computed (exactOptionalPropertyTypes compat)
+    return branchResults !== undefined
+        ? { readinessStatus, missingFields, warnings, branches: branchResults }
+        : { readinessStatus, missingFields, warnings };
 }
 
 /**

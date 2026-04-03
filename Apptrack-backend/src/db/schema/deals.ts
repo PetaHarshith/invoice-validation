@@ -14,6 +14,7 @@ import {
 import { dealStageEnum, readinessStatusEnum } from "./enums";
 import { accounts } from "./accounts";
 import { productCatalog } from "./products";
+import { branches } from "./wholesale";
 
 // Reusable timestamps — same pattern as original codebase
 const timestamps = {
@@ -160,6 +161,12 @@ export const dealLineItems = pgTable(
         discountApprovedText: text("discount_approved_text"),
         lineDescription: text("line_description"),
 
+        // ── Wholesale branch attribution (nullable — backward compatible) ────────
+        // NULL  → legacy deal-level line item (existing behavior unchanged)
+        // set   → this line item belongs to a specific branch and is invoiced to
+        //         that branch's billingEntityName, not the parent company
+        branchId: uuid("branch_id").references(() => branches.id, { onDelete: "set null" }),
+
         ...timestamps,
     },
     (table) => ({
@@ -168,6 +175,7 @@ export const dealLineItems = pgTable(
         productCatalogIdIdx: index("deal_line_items_product_catalog_id_idx").on(
             table.productCatalogId
         ),
+        branchIdIdx: index("deal_line_items_branch_id_idx").on(table.branchId),
     })
 );
 

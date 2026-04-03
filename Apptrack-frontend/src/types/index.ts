@@ -218,3 +218,38 @@ export type UpdateResponse<T = unknown> = {
 export type DeleteResponse<T = unknown> = {
     data: T;
 };
+
+// ── Wholesale / Branch types ─────────────────────────────────────────────────
+
+export type Branch = {
+    id: string;
+    accountId: string;
+    companyIdExternal?: string | null;
+    branchIdExternal?: string | null;
+    name: string;
+    branchType?: string | null;
+    branchCity?: string | null;
+    branchState?: string | null;
+    branchCountry?: string | null;
+    billingEntityName?: string | null;
+    billingStateProv?: string | null;
+    billingCountry?: string | null;
+    procurementModel?: string | null;
+    erpSystem?: string | null;
+    estAnnualSpend?: string | null;
+    skuCountEst?: number | null;
+    branchStatus?: string | null;
+    needsReview?: boolean | null;
+    notes?: string | null;
+    // Nested — populated by GET /deals/:id
+    contacts?: Contact[];
+    lineItems?: DealLineItem[];
+};
+
+export type BranchReadinessResult = {
+    branchId:   string;
+    branchName: string;
+    status:     'ready' | 'warning' | 'blocked';
+    blockers:   string[];
+    warnings:   string[];
+};

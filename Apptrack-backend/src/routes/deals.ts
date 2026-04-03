@@ -2,7 +2,7 @@ import { Router, Request, Response } from 'express';
 import { eq, ilike, and, sql, desc, asc } from 'drizzle-orm';
 import { z } from 'zod';
 import { db } from '../db';
-import { deals, accounts, contacts, dealLineItems } from '../db/schema';
+import { deals, accounts, contacts, dealLineItems, branches } from '../db/schema';
 import { computeReadiness, autoAdvanceStage } from '../lib/readiness';
 
 const router = Router();
@@ -240,8 +240,9 @@ router.get('/', async (req: Request, res: Response) => {
 });
 
 // ── GET /deals/:id ────────────────────────────────────────────────────────────
-// Returns the full deal detail: deal + account + account's contacts + line items.
-// This is the "one place per deal" view for finance to review everything.
+// Returns the full deal detail: deal + account + contacts + line items + branches.
+// For wholesale accounts the branches array is populated with per-branch contacts
+// and line items so the frontend can render branch-level readiness.
 router.get('/:id', async (req: Request, res: Response) => {
     try {
         const id = req.params.id as string;
@@ -260,7 +261,20 @@ router.get('/:id', async (req: Request, res: Response) => {
         });
 
         if (!deal) return res.status(404).json({ error: 'Deal not found' });
-        return res.json({ data: deal });
+
+        // Fetch branches for this deal's account (empty for non-wholesale deals)
+        const accountBranches = await db.query.branches.findMany({
+            where: eq(branches.accountId, deal.accountId),
+            with: {
+                contacts:  true,
+                lineItems: {
+                    where: eq(dealLineItems.dealId, id),
+                },
+            },
+            orderBy: (b, { asc: a }) => [a(b.branchIdExternal)],
+        });
+
+        return res.json({ data: { ...deal, branches: accountBranches } });
     } catch (err) {
         console.error(err);
         return res.status(500).json({ error: 'Failed to fetch deal' });

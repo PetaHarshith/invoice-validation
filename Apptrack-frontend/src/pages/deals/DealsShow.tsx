@@ -11,10 +11,10 @@ import { Label } from '@/components/ui/label';
 import {
     ArrowLeft, CheckCircle2, XCircle, AlertTriangle,
     Building2, Calendar, FileCheck, User, DollarSign,
-    ShoppingCart, AlertCircle, Pencil, Save, X, Plus, Trash2, ReceiptText
+    ShoppingCart, AlertCircle, Pencil, Save, X, Plus, Trash2, ReceiptText, GitBranch
 } from 'lucide-react';
 import { BACKEND_URL, DEAL_STATUS_LABELS } from '@/constants';
-import { DealDetail, DealStatus, ReadinessStatus, InvoiceWithIssues } from '@/types';
+import { DealDetail, DealStatus, ReadinessStatus, InvoiceWithIssues, Branch, BranchReadinessResult } from '@/types';
 
 type ContactEditRow = {
     contactName: string;
@@ -112,6 +112,10 @@ const DealsShow = () => {
 
     // Invoice history state
     const [invoiceHistory, setInvoiceHistory] = useState<InvoiceWithIssues[]>([]);
+
+    // Wholesale branch state — populated from deal.branches returned by GET /deals/:id
+    const [branches, setBranches] = useState<Branch[]>([]);
+    const [branchReadiness, setBranchReadiness] = useState<BranchReadinessResult[]>([]);
 
     // Contact edit state — keyed by contact id for existing, array for new
     const [contactEdits, setContactEdits] = useState<Record<string, ContactEditRow>>({});
@@ -352,7 +356,22 @@ const DealsShow = () => {
         setLoading(true);
         fetch(`${BACKEND_URL}/deals/${id}`)
             .then(r => r.ok ? r.json() : r.json().then(e => Promise.reject(e.error)))
-            .then(json => setDeal(json.data))
+            .then(json => {
+                setDeal(json.data);
+                // Populate branches from the deal response (wholesale accounts only)
+                const dealBranches: Branch[] = json.data?.branches ?? [];
+                setBranches(dealBranches);
+                // Build branch readiness from the nested branch data
+                setBranchReadiness(dealBranches.map((b: Branch): BranchReadinessResult => {
+                    const blockers: string[] = [];
+                    if (!b.billingEntityName) blockers.push('billingEntityName — no billing entity set');
+                    const hasBillingContact = (b.contacts ?? []).some(c => c.isBillingContact);
+                    if (!hasBillingContact) blockers.push('billingContact — no billing contact for this branch');
+                    if ((b.lineItems ?? []).length === 0) blockers.push('lineItems — no line items for this branch');
+                    const status = blockers.length > 0 ? 'blocked' : 'ready';
+                    return { branchId: b.id, branchName: b.name, status, blockers, warnings: [] };
+                }));
+            })
             .catch(e => setError(String(e)))
             .finally(() => setLoading(false));
         // Load invoice history in parallel
@@ -973,6 +992,100 @@ const DealsShow = () => {
                 )}
             </div>
 
+            {/* ── Branches (wholesale accounts only) ──────────────────────── */}
+            {branches.length > 0 && (
+                <Card>
+                    <CardHeader className="pb-2">
+                        <CardTitle className="text-sm flex items-center gap-2">
+                            <GitBranch className="h-4 w-4 text-muted-foreground" />
+                            Branches ({branches.length})
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="space-y-3">
+                            {branches.map((branch) => {
+                                const br = branchReadiness.find(r => r.branchId === branch.id);
+                                const status = br?.status ?? 'blocked';
+                                const statusColor =
+                                    status === 'ready'   ? '#22c55e' :
+                                    status === 'warning' ? '#f59e0b' : 'var(--chart-3)';
+                                const StatusIcon =
+                                    status === 'ready'   ? CheckCircle2 :
+                                    status === 'warning' ? AlertTriangle : XCircle;
+
+                                return (
+                                    <div key={branch.id} className="rounded-lg border p-3 flex flex-col gap-2">
+                                        <div className="flex items-center justify-between gap-2">
+                                            <div className="flex items-center gap-2 min-w-0">
+                                                <Building2 className="h-4 w-4 text-muted-foreground shrink-0" />
+                                                <span className="font-medium text-sm truncate">{branch.name}</span>
+                                                {branch.branchType && (
+                                                    <span className="text-xs text-muted-foreground shrink-0">({branch.branchType})</span>
+                                                )}
+                                            </div>
+                                            <div className="flex items-center gap-1 shrink-0" style={{ color: statusColor }}>
+                                                <StatusIcon className="h-4 w-4" />
+                                                <span className="text-xs font-medium capitalize">{status}</span>
+                                            </div>
+                                        </div>
+
+                                        <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-xs text-muted-foreground">
+                                            {branch.billingEntityName && (
+                                                <span><span className="font-medium text-foreground">Billing entity: </span>{branch.billingEntityName}</span>
+                                            )}
+                                            {branch.billingStateProv && (
+                                                <span><span className="font-medium text-foreground">Billing state: </span>{branch.billingStateProv}</span>
+                                            )}
+                                            {branch.procurementModel && (
+                                                <span><span className="font-medium text-foreground">Procurement: </span>{branch.procurementModel}</span>
+                                            )}
+                                            {branch.estAnnualSpend && (
+                                                <span><span className="font-medium text-foreground">Est. spend: </span>{branch.estAnnualSpend}</span>
+                                            )}
+                                        </div>
+
+                                        {/* Billing contact summary */}
+                                        {(branch.contacts ?? []).length > 0 && (
+                                            <div className="text-xs text-muted-foreground">
+                                                <span className="font-medium text-foreground">Contacts: </span>
+                                                {(branch.contacts ?? []).map(c => (
+                                                    <span key={c.id} className="mr-2">
+                                                        {c.contactName}
+                                                        {c.isBillingContact && (
+                                                            <span className="ml-1 text-green-600 font-medium">(billing)</span>
+                                                        )}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        )}
+
+                                        {/* Blockers */}
+                                        {(br?.blockers ?? []).length > 0 && (
+                                            <div className="space-y-1">
+                                                {br!.blockers.map((b, i) => (
+                                                    <div key={i} className="flex items-start gap-1.5 text-xs" style={{ color: 'var(--chart-3)' }}>
+                                                        <AlertCircle className="h-3.5 w-3.5 mt-0.5 shrink-0" />
+                                                        <span>{b}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+
+                                        {/* Line items for this branch */}
+                                        {(branch.lineItems ?? []).length > 0 && (
+                                            <div className="text-xs text-muted-foreground">
+                                                <span className="font-medium text-foreground">Line items: </span>
+                                                {branch.lineItems!.length} item{branch.lineItems!.length !== 1 ? 's' : ''}
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </CardContent>
+                </Card>
+            )}
+
             {/* Invoice History */}
             {invoiceHistory.length > 0 && (
                 <Card>
@@ -1010,7 +1123,7 @@ const DealsShow = () => {
                                                 <td className="px-4 py-2.5 font-mono text-xs font-medium">
                                                     <span className="flex items-center gap-1.5">
                                                         {inv.invoiceNumber}
-                                                        {inv.isDisputed && <AlertTriangle className="h-3.5 w-3.5 text-amber-500" title="Disputed" />}
+                                                        {inv.isDisputed && <AlertTriangle className="h-3.5 w-3.5 text-amber-500" aria-label="Disputed" />}
                                                     </span>
                                                 </td>
                                                 <td className="px-4 py-2.5 text-right font-medium tabular-nums">

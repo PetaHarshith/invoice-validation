@@ -5,6 +5,7 @@ import dealsRouter from './routes/deals';
 import invoicesRouter from './routes/invoices';
 import contactsRouter from './routes/contacts';
 import accountsRouter from './routes/accounts';
+import branchesRouter from './routes/branches';
 
 const app = express();
 const PORT = 8000;
@@ -34,6 +35,7 @@ app.use('/deals', dealsRouter);
 app.use('/invoices', invoicesRouter);
 app.use('/contacts', contactsRouter);
 app.use('/accounts', accountsRouter);
+app.use('/branches', branchesRouter);
 
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
