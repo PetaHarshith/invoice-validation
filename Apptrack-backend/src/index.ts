@@ -1,34 +1,40 @@
+import 'dotenv/config';
 import express from 'express';
-import { toNodeHandler } from 'better-auth/node';
-import applicationsRouter from './routes/applications';
 import cors from 'cors';
-import { auth } from './lib/auth';
+import dealsRouter from './routes/deals';
+import invoicesRouter from './routes/invoices';
+import contactsRouter from './routes/contacts';
+import accountsRouter from './routes/accounts';
 
 const app = express();
 const PORT = 8000;
 
-if (!process.env.FRONTEND_URL) {
-    throw new Error('Missing frontend URL');
-}
-
 app.use(cors({
-    origin: process.env.FRONTEND_URL,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true
+    // Allow any localhost port in dev (port changes when 5173 is already in use)
+    origin: (origin, callback) => {
+        if (!origin || /^http:\/\/localhost(:\d+)?$/.test(origin)) {
+            callback(null, true);
+        } else if (process.env.FRONTEND_URL && origin === process.env.FRONTEND_URL) {
+            callback(null, true);
+        } else {
+            callback(new Error(`CORS: origin not allowed — ${origin}`));
+        }
+    },
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+    credentials: true,
 }));
-
-// Better-auth handler - must be before express.json() for auth routes
-app.all('/api/auth/*splat', toNodeHandler(auth));
 
 app.use(express.json());
 
-app.get('/', (req, res) => {
-    res.send('Welcome to the Application Tracking API!');
+app.get('/', (_req, res) => {
+    res.json({ status: 'ok', service: 'Northwoods Invoice Readiness API' });
 });
 
-// Register routes
-app.use('/applications', applicationsRouter);
+app.use('/deals', dealsRouter);
+app.use('/invoices', invoicesRouter);
+app.use('/contacts', contactsRouter);
+app.use('/accounts', accountsRouter);
 
 app.listen(PORT, () => {
-    console.log(`Server is running on port http://localhost:${PORT}`);
+    console.log(`Server running at http://localhost:${PORT}`);
 });

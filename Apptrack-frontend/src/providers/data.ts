@@ -24,12 +24,12 @@ const options: CreateDataProviderOptions = {
                     return;
                 }
 
-                if (resource === 'applications') {
-                    if (field === 'company') {
+                if (resource === 'deals') {
+                    if (field === 'accountName' || field === 'opportunityName') {
                         params.search = String(value);
                     }
-                    if (field === 'status') {
-                        params.status = String(value);
+                    if (field === 'stage') {
+                        params.stage = String(value);
                     }
                 }
             });

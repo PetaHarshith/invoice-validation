@@ -6,59 +6,20 @@ import routerProvider, {
     DocumentTitleHandler,
     UnsavedChangesNotifier,
 } from "@refinedev/react-router";
-import { BrowserRouter, Navigate, Outlet, Route, Routes } from "react-router";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 import "./App.css";
 import { Toaster } from "./components/refine-ui/notification/toaster";
 import { useNotificationProvider } from "./components/refine-ui/notification/use-notification-provider";
 import { ThemeProvider } from "./components/refine-ui/theme/theme-provider";
 import { dataProvider } from "./providers/data";
 import Dashboard from "@/pages/dashboard.tsx";
-import { ClipboardList, Home, User } from "lucide-react";
+import { FileCheck, Home, TrendingUp, ReceiptText } from "lucide-react";
 import { Layout } from "@/components/refine-ui/layout/layout.tsx";
-import ApplicationsList from "@/pages/applications/ApplicationsList.tsx";
-import ApplicationsCreate from "@/pages/applications/ApplicationsCreate.tsx";
-import Login from "@/pages/auth/Login.tsx";
-import Signup from "@/pages/auth/Signup.tsx";
-import Profile from "@/pages/Profile.tsx";
-import { useSession } from "@/lib/auth-client";
-
-// Protected route wrapper
-function ProtectedRoute({ children }: { children: React.ReactNode }) {
-    const { data: session, isPending } = useSession();
-
-    if (isPending) {
-        return (
-            <div className="min-h-screen flex items-center justify-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-            </div>
-        );
-    }
-
-    if (!session) {
-        return <Navigate to="/login" replace />;
-    }
-
-    return <>{children}</>;
-}
-
-// Auth route wrapper (redirect to home if already logged in)
-function AuthRoute({ children }: { children: React.ReactNode }) {
-    const { data: session, isPending } = useSession();
-
-    if (isPending) {
-        return (
-            <div className="min-h-screen flex items-center justify-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-            </div>
-        );
-    }
-
-    if (session) {
-        return <Navigate to="/" replace />;
-    }
-
-    return <>{children}</>;
-}
+import DealsList from "@/pages/deals/DealsList.tsx";
+import DealsCreate from "@/pages/deals/DealsCreate.tsx";
+import DealsShow from "@/pages/deals/DealsShow.tsx";
+import Pipeline from "@/pages/Pipeline.tsx";
+import InvoicesList from "@/pages/invoices/InvoicesList.tsx";
 
 function App() {
     return (
@@ -74,8 +35,11 @@ function App() {
                                 syncWithLocation: true,
                                 warnWhenUnsavedChanges: true,
                                 projectId: "rU5QXW-YissXg-5PtwMk",
+                                title: {
+                                    text: 'Northwoods',
+                                    icon: <FileCheck className="h-5 w-5 text-primary" />,
+                                },
                             }}
-
                             resources={[
                                 {
                                     name: 'dashboard',
@@ -83,51 +47,35 @@ function App() {
                                     meta: { label: 'Home', icon: <Home /> }
                                 },
                                 {
-                                    name: 'applications',
-                                    list: '/applications',
-                                    create: '/applications/create',
-                                    meta: { label: 'Applications', icon: <ClipboardList /> }
+                                    name: 'deals',
+                                    list: '/deals',
+                                    create: '/deals/create',
+                                    show: '/deals/:id',
+                                    meta: { label: 'Deals', icon: <FileCheck /> }
                                 },
                                 {
-                                    name: 'profile',
-                                    list: '/profile',
-                                    meta: { label: 'Profile', icon: <User /> }
-                                }
+                                    name: 'pipeline',
+                                    list: '/pipeline',
+                                    meta: { label: 'Pipeline', icon: <TrendingUp /> }
+                                },
+                                {
+                                    name: 'invoices',
+                                    list: '/invoices',
+                                    meta: { label: 'Invoices', icon: <ReceiptText /> }
+                                },
                             ]}
                         >
                             <Routes>
-                                {/* Auth routes */}
-                                <Route path="/login" element={
-                                    <AuthRoute>
-                                        <Login />
-                                    </AuthRoute>
-                                } />
-                                <Route path="/signup" element={
-                                    <AuthRoute>
-                                        <Signup />
-                                    </AuthRoute>
-                                } />
-
-                                {/* Protected routes */}
-                                <Route element={
-                                    <ProtectedRoute>
-                                        <Layout>
-                                            <Outlet />
-                                        </Layout>
-                                    </ProtectedRoute>
-                                }>
-
+                                <Route element={<Layout><Outlet /></Layout>}>
                                     <Route path="/" element={<Dashboard />} />
-
-                                    <Route path="/applications">
-                                        <Route index element={<ApplicationsList />} />
-                                        <Route path="create" element={<ApplicationsCreate />} />
+                                    <Route path="/deals">
+                                        <Route index element={<DealsList />} />
+                                        <Route path="create" element={<DealsCreate />} />
+                                        <Route path=":id" element={<DealsShow />} />
                                     </Route>
-
-                                    <Route path="/profile" element={<Profile />} />
-
+                                    <Route path="/pipeline" element={<Pipeline />} />
+                                    <Route path="/invoices" element={<InvoicesList />} />
                                 </Route>
-
                             </Routes>
                             <Toaster />
                             <RefineKbar />

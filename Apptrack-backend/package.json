@@ -11,7 +11,17 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
-    "db:seed": "tsx src/db/seed.ts"
+    "db:seed": "tsx src/db/seed.ts",
+    "import:product-catalog": "tsx scripts/import-product-catalog.ts",
+    "import:accounts": "tsx scripts/import-accounts.ts",
+    "import:deals": "tsx scripts/import-deals.ts",
+    "import:enrich-tracker": "tsx scripts/enrich-deals-tracker.ts",
+    "import:finance-review": "tsx scripts/import-finance-review.ts",
+    "recompute:readiness": "tsx scripts/recompute-readiness.ts",
+    "inspect:files": "tsx scripts/_inspect-all-files.ts",
+    "import:invoice-register": "tsx scripts/import-invoice-register.ts",
+    "test:write": "tsx scripts/_test-write.ts",
+    "check:deals": "tsx scripts/_check-four-deals.ts"
   },
   "keywords": [],
   "author": "",

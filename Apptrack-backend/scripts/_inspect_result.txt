@@ -1,0 +1,137 @@
+=== Full_Invoice_Register: 157 rows ===
+Rows WITH billing contact: 107
+  OPP-10014 | Iron Range Components | billing: Sandra Paulson <sandra.paulson@ironrangecom.com> | invoiceDate: 2023-02-17 | terms: Net 30
+  OPP-10006 | Prairie Ridge Manufacturing | billing: James Pedersen <james.pedersen@prairieridge.com> | invoiceDate: 2023-03-02 | terms: Net 30
+  OPP-10018 | Heartland Machining Co. | billing: James Jensen <james.jensen@heartlandmac.com> | invoiceDate: 2023-08-08 | terms: Net 30
+  OPP-10038 | Superior Metal Components | billing: Barbara Nelson <barbara.nelson@superiormeta.com> | invoiceDate: 2023-11-03 | terms: Net 30
+  OPP-10055 | Northwoods Fabrication Co. | billing: Ruth Miller <ruth.miller@northwoodsfa.com> | invoiceDate: 2023-12-18 | terms: Net 45
+  OPP-10029 | Apex Industrial Components | billing: Steven Berg <steven.berg@apexindustri.com> | invoiceDate: 2024-01-12 | terms: Net 30
+  OPP-10065 | Iron Range Components | billing: Michael Paulson <michael.paulson@ironrangecom.com> | invoiceDate: 2024-02-18 | terms: Net 30
+  OPP-10053 | Velocity Machining Group | billing: Richard Wilson <richard.wilson@velocitymach.com> | invoiceDate: 2024-03-09 | terms: Net 30
+  OPP-10051 | Prairie Ridge Manufacturing | billing: Carol Fischer <carol.fischer@prairieridge.com> | invoiceDate: 2024-03-04 | terms: Net 30
+  OPP-10069 | Lakeview Industrial Co. | billing: Richard Wilson <richard.wilson@lakeviewindu.com> | invoiceDate: 2024-03-17 | terms: Net 30
+  OPP-10072 | Black River Industrial | billing: Ruth Hansen <ruth.hansen@blackriverin.com> | invoiceDate: 2024-03-20 | terms: Net 30
+  OPP-10062 | Cedar Valley Tooling | billing: James Williams <james.williams@cedarvalleyt.com> | invoiceDate: 2024-04-08 | terms: Net 30
+  OPP-10057 | SummitLine Industries | billing: Linda Andersen <linda.andersen@summitlinein.com> | invoiceDate: 2024-04-22 | terms: Net 45
+  OPP-10075 | Boundary Waters Manufacturing | billing: Margaret Davis <margaret.davis@boundarywate.com> | invoiceDate: 2024-04-30 | terms: Net 30
+  OPP-10080 | Driftless Machine & Tool | billing: Deborah Andersen <deborah.andersen@driftlessmac.com> | invoiceDate: 2024-05-06 | terms: null
+  OPP-10084 | Metro Forge | billing: Carol Larson <carol.larson@metroforge.com> | invoiceDate: 2024-05-30 | terms: Net 30
+  OPP-10073 | Birchwood Industrial Co. | billing: Robert Davis <robert.davis@birchwoodind.com> | invoiceDate: 2024-06-07 | terms: Net 30
+  OPP-10076 | Summit Forge Systems | billing: Karen Andersen <karen.andersen@summitforges.com> | invoiceDate: 2024-07-03 | terms: Net 45
+  OPP-10089 | Granite Peak Components | billing: Carol Davis <carol.davis@granitepeakc.com> | invoiceDate: 2024-07-07 | terms: Net 30
+  OPP-10088 | ClearPath Manufacturing | billing: Janet Hansen <janet.hansen@clearpathman.com> | invoiceDate: 2024-07-21 | terms: Net 60
+  OPP-10079 | Heartland Machining Co. | billing: Robert Taylor <robert.taylor@heartlandmac.com> | invoiceDate: 2024-08-08 | terms: Net 30
+  OPP-10093 | RivetWorks Industrial | billing: Margaret Kowalski <margaret.kowalski@rivetworksin.com> | invoiceDate: 2024-08-12 | terms: Net 30
+  OPP-10096 | Grindstone Fabrication | billing: Ruth Moore <ruth.moore@grindstonefa.com> | invoiceDate: 2024-09-01 | terms: Net 45
+  OPP-10092 | Ironclad Fabrication Works | billing: Donna Kowalski <donna.kowalski@ironcladfabr.com> | invoiceDate: 2024-09-19 | terms: Net 30
+  OPP-10095 | TorchCut Industries | billing: Charles Kowalski <charles.kowalski@torchcutindu.com> | invoiceDate: 2024-09-21 | terms: Net 45
+  OPP-10102 | BlueLine Industrial Systems | billing: Donna Larson <donna.larson@bluelineindu.com> | invoiceDate: 2024-10-12 | terms: Net 30
+  OPP-10105 | Hardline Machining | billing: Richard Meier <richard.meier@hardlinemach.com> | invoiceDate: 2024-10-14 | terms: Net 60
+  OPP-10097 | Superior Metal Components | billing: David Taylor <david.taylor@superiormeta.com> | invoiceDate: 2024-10-26 | terms: Net 60
+  OPP-10112 | Steel Ridge Works | billing: Barbara Paulson <barbara.paulson@steelridgewo.com> | invoiceDate: 2024-11-05 | terms: Net 30
+  OPP-10115 | Riverbend Machining | billing: Linda Brown <linda.brown@riverbendmac.com> | invoiceDate: 2024-11-24 | terms: Net 30
+  OPP-10094 | Fox Valley Industrial Co | billing: Laura Berg <laura.berg@foxvalleyind.com> | invoiceDate: 2024-11-19 | terms: Net 30
+  OPP-10111 | Foundry North Components | billing: Karen Wilson <karen.wilson@foundrynorth.com> | invoiceDate: 2024-11-27 | terms: Net 45
+  OPP-10117 | Northwoods Fabrication Co. | billing: James Pedersen <james.pedersen@northwoodsfa.com> | invoiceDate: 2024-12-17 | terms: Net 30
+  OPP-10121 | Crosswind Manufacturing | billing: Janet Paulson <janet.paulson@crosswindman.com> | invoiceDate: 2024-12-14 | terms: Net 30
+  OPP-10118 | Red Pine Manufacturing | billing: Steven Andersen <steven.andersen@redpinemanuf.com> | invoiceDate: 2025-01-19 | terms: Net 30
+  OPP-10126 | Timberline Fabrication | billing: Thomas Miller <thomas.miller@timberlinefa.com> | invoiceDate: 2025-01-29 | terms: Net 30
+  OPP-10120 | Twin Rivers Fabrication | billing: Michael Hansen <michael.hansen@twinriversfa.com> | invoiceDate: 2025-01-30 | terms: Net 30
+  OPP-10086 | NorthStar Ag Systems | billing: James Hansen <james.hansen@northstarags.com> | invoiceDate: 2025-02-07 | terms: Net 60
+  OPP-10131 | Great Lakes Tooling Systems | billing: Christine Thompson <christine.thompson@greatlakesto.com> | invoiceDate: 2025-02-18 | terms: Net 30
+  OPP-10101 | Iron Range Components | billing: Steven Pedersen <steven.pedersen@ironrangecom.com> | invoiceDate: 2025-02-24 | terms: Net 30
+  OPP-10110 | Velocity Machining Group | billing: Robert Hansen <robert.hansen@velocitymach.com> | invoiceDate: 2025-03-03 | terms: Net 30
+  OPP-10113 | Prairie Ridge Manufacturing | billing: Margaret Miller <margaret.miller@prairieridge.com> | invoiceDate: 2025-03-04 | terms: Net 30
+  OPP-10135 | AnchorLine Industrial | billing: Carol Nelson <carol.nelson@anchorlinein.com> | invoiceDate: 2025-03-10 | terms: Net 15
+  OPP-10128 | Lakeview Industrial Co. | billing: Janet Wilson <janet.wilson@lakeviewindu.com> | invoiceDate: 2025-03-20 | terms: Net 30
+  OPP-10137 | Breakwater Manufacturing | billing: Barbara Kowalski <barbara.kowalski@breakwaterma.com> | invoiceDate: 2025-03-29 | terms: Net 60
+  OPP-10140 | Cedar Valley Tooling | billing: Thomas Davis <thomas.davis@cedarvalleyt.com> | invoiceDate: 2025-04-06 | terms: Due on Receipt
+  OPP-10143 | ForgeWorks Precision | billing: Laura Nelson <laura.nelson@forgeworkspr.com> | invoiceDate: 2025-04-05 | terms: Net 15
+  OPP-10136 | EmberWorks Fabrication | billing: Richard Miller <richard.miller@emberworksfa.com> | invoiceDate: 2025-04-12 | terms: Net 15
+  OPP-10139 | SummitLine Industries | billing: Robert Brown <robert.brown@summitlinein.com> | invoiceDate: 2025-04-25 | terms: Net 30
+  OPP-10148 | Boundary Waters Manufacturing | billing: Christine Meier <christine.meier@boundarywate.com> | invoiceDate: 2025-04-24 | terms: Net 30
+  OPP-10147 | FirstShift Manufacturing | billing: Michael Olson <michael.olson@firstshiftma.com> | invoiceDate: 2025-05-08 | terms: Net 30
+  OPP-10144 | Driftless Machine & Tool | billing: Richard Kowalski <richard.kowalski@driftlessmac.com> | invoiceDate: 2025-05-13 | terms: Net 60
+  OPP-10153 | Iron Gate Fabrication | billing: David Schultz <david.schultz@irongatefabr.com> | invoiceDate: 2025-05-17 | terms: Net 30
+  OPP-10138 | UpRiver Industrial Co. | billing: Carol Davis <carol.davis@upriverindus.com> | invoiceDate: 2025-05-19 | terms: Net 30
+  OPP-10152 | Northstar Fabrication Group | billing: Diane Olson <diane.olson@northstarfab.com> | invoiceDate: 2025-05-27 | terms: Net 30
+  OPP-10160 | Metro Forge | billing: Carol Olson <carol.olson@metroforge.com> | invoiceDate: 2025-05-27 | terms: Net 45
+  OPP-10150 | Lakeville Plastics | billing: Donna Grabowski <donna.grabowski@lakevillepla.com> | invoiceDate: 2025-06-06 | terms: Due on Receipt
+  OPP-10129 | Trailhead Fabrication | billing: Karen Olson <karen.olson@trailheadfab.com> | invoiceDate: 2025-06-05 | terms: Net 30
+  OPP-10155 | Birchwood Industrial Co. | billing: Diane Kowalski <diane.kowalski@birchwoodind.com> | invoiceDate: 2025-06-12 | terms: Net 30
+  OPP-10162 | Fox River Precision | billing: Ruth Miller <ruth.miller@foxriverprec.com> | invoiceDate: 2025-06-17 | terms: Net 15
+  OPP-10132 | Granite Peak Components | billing: Deborah Kowalski <deborah.kowalski@granitepeakc.com> | invoiceDate: 2025-07-09 | terms: Net 60
+  OPP-10171 | Cairnstone Precision Components | billing: Carol Hansen <carol.hansen@cairnstonepr.com> | invoiceDate: 2025-07-11 | terms: null
+  OPP-10165 | ClearPath Manufacturing | billing: Laura Williams <laura.williams@clearpathman.com> | invoiceDate: 2025-07-21 | terms: Net 30
+  OPP-10169 | Pebblecrest Machining | billing: Patricia Paulson <patricia.paulson@pebblecrestm.com> | invoiceDate: 2025-07-25 | terms: Net 15
+  OPP-10167 | Heartland Machining Co. | billing: James Davis <james.davis@heartlandmac.com> | invoiceDate: 2025-08-08 | terms: Net 60
+  OPP-10166 | Bramblewood Industrial Supply | billing: Patricia Grabowski <patricia.grabowski@bramblewoodi.com> | invoiceDate: 2025-08-09 | terms: Net 30
+  OPP-10154 | RivetWorks Industrial | billing: Linda Fischer <linda.fischer@rivetworksin.com> | invoiceDate: 2025-08-10 | terms: Due on Receipt
+  OPP-10175 | Foxglove Fabrication & Welding | billing: Charles Miller <charles.miller@foxglovefabr.com> | invoiceDate: 2025-08-12 | terms: Net 30
+  OPP-10157 | OpenRange Manufacturing | billing: Michael Brown <michael.brown@openrangeman.com> | invoiceDate: 2025-08-11 | terms: Net 15
+  OPP-10181 | Timberline Wood & Composite Manufacturing | billing: Sandra Wilson <sandra.wilson@timberlinewo.com> | invoiceDate: 2025-08-23 | terms: Net 30
+  OPP-10173 | Springwell Industrial Manufacturing | billing: Diane Meier <diane.meier@springwellin.com> | invoiceDate: 2025-08-29 | terms: Net 30
+  OPP-10183 | Grindstone Fabrication | billing: Nancy Paulson <nancy.paulson@grindstonefa.com> | invoiceDate: 2025-09-02 | terms: Net 15
+  OPP-10174 | Knightstone Precision Manufacturing | billing: Richard Berg <richard.berg@knightstonep.com> | invoiceDate: 2025-09-04 | terms: Net 30
+  OPP-10178 | ForgeTrail Industries | billing: James Hansen <james.hansen@forgetrailin.com> | invoiceDate: 2025-09-17 | terms: Due on Receipt
+  OPP-10184 | Ironclad Fabrication Works | billing: Linda Nelson <linda.nelson@ironcladfabr.com> | invoiceDate: 2025-09-15 | terms: Net 30
+  OPP-10176 | Badger Automation | billing: Nancy Grabowski <nancy.grabowski@badgerautoma.com> | invoiceDate: 2025-09-23 | terms: Net 30
+  OPP-10186 | Yellowstone Industrial Components | billing: Michael Fischer <michael.fischer@yellowstonei.com> | invoiceDate: 2025-09-18 | terms: Net 30
+  OPP-10191 | Bluffside Industrial Manufacturing | billing: Robert Larson <robert.larson@bluffsideind.com> | invoiceDate: 2025-09-23 | terms: Net 30
+  OPP-10163 | BlueLine Industrial Systems | billing: Laura Berg <laura.berg@bluelineindu.com> | invoiceDate: 2025-10-05 | terms: Due on Receipt
+  OPP-10193 | Northern Machining | billing: David Schultz <david.schultz@northernmach.com> | invoiceDate: 2025-10-11 | terms: Net 30
+  OPP-10192 | Hardline Machining | billing: Christine Meier <christine.meier@hardlinemach.com> | invoiceDate: 2025-10-17 | terms: Net 45
+  OPP-10179 | Northbound Components | billing: Charles Grabowski <charles.grabowski@northboundco.com> | invoiceDate: 2025-10-16 | terms: Net 45
+  OPP-10195 | Lakeview Plastics | billing: Barbara Brown <barbara.brown@lakeviewplas.com> | invoiceDate: 2025-10-25 | terms: Net 30
+  OPP-10199 | Crestview Fabrication Works | billing: Sandra Moore <sandra.moore@crestviewfab.com> | invoiceDate: 2025-11-02 | terms: Net 30
+  OPP-10201 | Steel Ridge Works | billing: Janet Hendricks <janet.hendricks@steelridgewo.com> | invoiceDate: 2025-10-31 | terms: Net 15
+  OPP-10196 | Juniper Industrial Systems | billing: Nancy Thompson <nancy.thompson@juniperindus.com> | invoiceDate: 2025-11-10 | terms: Net 60
+  OPP-10204 | Pathfinder Manufacturing Co. | billing: Charles Meier <charles.meier@pathfinderma.com> | invoiceDate: 2025-11-11 | terms: null
+  OPP-10208 | Riverbend Machining | billing: Janet Brown <janet.brown@riverbendmac.com> | invoiceDate: 2025-11-20 | terms: null
+  OPP-10210 | Foundry North Components | billing: Linda Berg <linda.berg@foundrynorth.com> | invoiceDate: 2025-11-27 | terms: Net 30
+  OPP-10211 | Alder Creek Machining | billing: Donna Hansen <donna.hansen@aldercreekma.com> | invoiceDate: 2025-12-01 | terms: Net 30
+  OPP-10187 | Fieldstone Industrial | billing: Michael Williams <michael.williams@fieldstonein.com> | invoiceDate: 2025-12-10 | terms: Net 45
+  OPP-10182 | Riverbend Industrial Fabrication | billing: Carol Berg <carol.berg@riverbendind.com> | invoiceDate: 2025-12-11 | terms: Net 45
+  OPP-10226 | Ironclad Manufacturing Group | billing: Carol Pedersen <carol.pedersen@ironcladmanu.com> | invoiceDate: 2025-12-28 | terms: Net 30
+  OPP-10229 | Frostwood Fabrication | billing: Patricia Williams <patricia.williams@frostwoodfab.com> | invoiceDate: 2026-01-06 | terms: null
+  OPP-10219 | Summit Tooling | billing: Thomas Davis <thomas.davis@summittoolin.com> | invoiceDate: 2026-01-17 | terms: Net 45
+  OPP-10230 | Red Pine Manufacturing | billing: Christine Nelson <christine.nelson@redpinemanuf.com> | invoiceDate: 2026-01-18 | terms: Net 45
+  OPP-10227 | Cobalt Industrial Systems | billing: Christine Fischer <christine.fischer@cobaltindust.com> | invoiceDate: 2026-01-21 | terms: Net 30
+  OPP-10223 | Dovecote Precision Manufacturing | billing: Laura Larson <laura.larson@dovecoteprec.com> | invoiceDate: 2026-01-17 | terms: Net 45
+  OPP-10238 | Timberline Fabrication | billing: Sandra Paulson <sandra.paulson@timberlinefa.com> | invoiceDate: 2026-02-01 | terms: Net 30
+  OPP-10243 | Umber Bay Industrial Co. | billing: Margaret Williams <margaret.williams@umberbayindu.com> | invoiceDate: 2026-02-06 | terms: Net 30
+  OPP-10221 | Twin Rivers Fabrication | billing: Michael Williams <michael.williams@twinriversfa.com> | invoiceDate: 2026-01-31 | terms: Net 45
+  OPP-10249 | Duskfall Manufacturing | billing: Christine Andersen <christine.andersen@duskfallmanu.com> | invoiceDate: 2026-02-09 | terms: Net 30
+  OPP-10251 | Great Lakes Tooling Systems | billing: Patricia Olson <patricia.olson@greatlakesto.com> | invoiceDate: 2026-02-19 | terms: null
+  OPP-10235 | Overland Industrial Supply | billing: Diane Hansen <diane.hansen@overlandindu.com> | invoiceDate: 2026-03-02 | terms: Net 45
+  OPP-10250 | Velocity Machining Group | billing: Diane Hansen <diane.hansen@velocitymach.com> | invoiceDate: 2026-03-07 | terms: Net 15
+  OPP-10253 | Lakeview Industrial Co. | billing: James Jensen <james.jensen@lakeviewindu.com> | invoiceDate: 2026-03-18 | terms: Net 60
+  OPP-10271 | Breakwater Manufacturing | billing: Linda Moore <linda.moore@breakwaterma.com> | invoiceDate: 2026-03-25 | terms: Net 30
+
+All rows with Invoice_Date: 157
+  OPP-10010 | Fox Valley Industrial Co | date: 2022-11-25
+  OPP-10012 | Red Pine Manufacturing | date: 2023-01-18
+  OPP-10017 | Twin Rivers Fabrication | date: 2023-01-28
+  OPP-10014 | Iron Range Components | date: 2023-02-17
+  OPP-10006 | Prairie Ridge Manufacturing | date: 2023-03-02
+  OPP-10001 | Lakeview Industrial Co. | date: 2023-03-15
+  OPP-10002 | Cedar Valley Tooling | date: 2023-04-08
+  OPP-10016 | SummitLine Industries | date: 2023-04-24
+  OPP-10026 | Driftless Machine & Tool | date: 2023-05-12
+  OPP-10035 | Northstar Fabrication Group | date: 2023-05-27
+
+=== DisputedInvoicesExport: 6 rows ===
+row[0]: OPP-10219 | Summit Tooling | billing: Thomas Davis <thomas.davis@summittoolin.com> | date: 2026-01-17
+row[1]: OPP-10228 | Lakeview Plastics | billing: null <null> | date: 2026-01-28
+row[2]: OPP-10239 | Riverbank Tool & Die | billing: null <null> | date: 2026-02-01
+row[3]: OPP-10241 | NorthStar Ag Systems | billing: null <null> | date: 2026-02-07
+row[4]: OPP-10233 | Great Lakes Industrial Components | billing: null <null> | date: 2026-02-12
+row[5]: OPP-10248 | Badger Automation | billing: null <null> | date: 2026-02-28
+
+=== Updated CRM Data: 518 total, 172 Closed Won ===
+Extra columns vs All_Opps_Final: Opportunity_Notes | Opportunity_Name | Opportunity_Source | Opportunity_Close_Reason | Account_Industry | Account_Size
+  OPP-10491 | Abingdon Conveyor Parts | name: Abingdon Conveyor Parts - Enterprise Forecast - Import | notes: [ClearCurrent Import] Auto-imported from acquired pipeline data.
+  OPP-10211 | Alder Creek Machining | name: Alder Creek Machining - Starter Forecast - New | notes: New customer onboarded on Starter Forecast. Initial use case: weekly demand planning.
+  OPP-10386 | Alderson Industrial Supply | name: Alderson Industrial Supply - Starter Forecast - Import | notes: [ClearCurrent Import] Auto-imported from acquired pipeline data.
+  OPP-10213 | Amber Peak Fabrication | name: Amber Peak Fabrication - Growth Forecast - New | notes: Competitive displacement win on Growth Forecast. Replaced incumbent BI tool.
+  OPP-10135 | AnchorLine Industrial | name: AnchorLine Industrial - Growth Forecast - New | notes: New Growth Forecast customer. Team of 10+ planners, replacing legacy ERP reporting.
