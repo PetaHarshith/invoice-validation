@@ -42,7 +42,7 @@ Northwoods solves this by giving every closed deal a **readiness score** based o
 ```
 +-------------------------------------+
 |   Frontend  (Vite + React 19)       |
-|   Apptrack-frontend/                |
+|   northwoods-frontend/              |
 |   - Refine data framework           |
 |   - React Router v7                 |
 |   - Radix UI + Tailwind CSS         |
@@ -51,7 +51,7 @@ Northwoods solves this by giving every closed deal a **readiness score** based o
                    | HTTP / REST  (port 5173 -> 8000)
 +------------------v------------------+
 |   Backend   (Express 5 + TypeScript)|
-|   Apptrack-backend/src/             |
+|   northwoods-backend/src/           |
 |   - Routes: deals, invoices,        |
 |     contacts, accounts              |
 |   - Readiness checker library       |
@@ -73,7 +73,7 @@ The frontend and backend are separate Node.js projects under the same repository
 
 ## 3. Tech Stack
 
-### Frontend (`Apptrack-frontend/`)
+### Frontend (`northwoods-frontend/`)
 
 | Layer | Technology |
 |---|---|
@@ -89,7 +89,7 @@ The frontend and backend are separate Node.js projects under the same repository
 | Animations | GSAP (used on the Create Deal form) |
 | Form validation | Zod + React Hook Form |
 
-### Backend (`Apptrack-backend/`)
+### Backend (`northwoods-backend/`)
 
 | Layer | Technology |
 |---|---|
@@ -113,6 +113,7 @@ The frontend and backend are separate Node.js projects under the same repository
 ## 4. Database Schema
 
 ### `accounts`
+
 The canonical customer record. One account can have many deals and many contacts.
 
 | Column | Type | Description |
@@ -129,9 +130,11 @@ The canonical customer record. One account can have many deals and many contacts
 | `next_renewal_date` | date | Upcoming renewal |
 
 ### `contacts`
+
 People associated with an account. A contact can be flagged as `is_primary_contact` and/or `is_billing_contact`. The billing contact flag is a hard requirement for deal readiness. Contacts carry name, title, email, location, and role.
 
 ### `deals`
+
 The central table. Every CRM opportunity becomes a deal row. The deal has two parallel status dimensions:
 
 - **`deal_stage`** — the workflow stage controlled by users (enum: `closed_won`, `needs_info`, `ready_for_invoice`, `invoiced`, `disputed`)
@@ -150,15 +153,19 @@ Key field groups on the `deals` table:
 | Readiness diagnostics | `missing_fields` (JSONB array), `warnings` (JSONB array), `finance_research` |
 
 ### `deal_line_items`
+
 Normalized line items, one row per purchased product per deal. At least one line item is required for readiness. Each row stores a snapshot of product name and price at deal time so catalog changes do not invalidate historical records. Key fields: `product_name_snapshot`, `sku_id`, `quantity`, `unit_price`, `line_total`, `billing_frequency`, `line_type`, `discount_amount`.
 
 ### `invoices`
+
 Actual invoice records, linked back to a deal via `deal_id` and `opportunity_id`. Kept separate from deals because the billed amount and invoice date may differ from the contracted amount and close date. Includes billing address, contact, PO number, payment status and date, and a boolean `is_disputed` flag.
 
 ### `invoice_issues`
+
 Disputes or finance review findings tied to an invoice. Has a summary, detail text, source (`customer_email`, `finance_review`, `manual`), and a free-text status field.
 
 ### `product_catalog`
+
 SKU catalog with base pricing, seat counts, billing frequency, and discount approval requirements. Used to link deal line items to canonical product records.
 
 ---
@@ -200,7 +207,7 @@ A deal moves through five **Deal Stages** in order:
 
 ## 6. The Readiness Checker
 
-The readiness checker lives in `Apptrack-backend/src/lib/readiness.ts`. It is a pure function:
+The readiness checker lives in `northwoods-backend/src/lib/readiness.ts`. It is a pure function:
 
 ```
 computeReadiness(deal, contacts, lineItems) => { readinessStatus, missingFields, warnings }
@@ -287,6 +294,7 @@ A paginated, sortable, filterable table of all deal records. Built with TanStack
 | View | Button to open the Deal Detail page |
 
 **Filters:**
+
 - **Search by company** — text input, triggers a server-side `ILIKE` search on account names.
 - **Status dropdown** — filter to a specific `deal_stage` or "All Statuses" to see all records.
 
@@ -307,6 +315,7 @@ The full record for a single deal. All editable sections write back to the API a
 **Account** — company name, location, industry, size, status, primary product, total seats, renewal date.
 
 **Contacts** — all contacts for the account in a table. Actions per contact row:
+
 - Edit name, title, email, location, role
 - Toggle **billing contact** flag — immediately triggers `syncReadinessForAccount()` which re-runs readiness for every deal on that account
 - Toggle **primary contact** flag
@@ -338,6 +347,7 @@ A multi-section animated form to add a new deal manually (for deals not in the C
 4. **Pipeline context** — pipeline stage, probability %, forecast category, next step, campaign.
 
 On submit, the frontend:
+
 1. Searches for an existing account by company name
 2. Creates the account if not found
 3. Posts the deal with the resolved `account_id`
@@ -354,9 +364,11 @@ A sales-team-focused view showing pipeline health from a sales funnel perspectiv
 **Owner Leaderboard** — an expandable panel showing each rep's closed-won count, won value, open pipeline count, and whether they have tracker data enriched. Clickable rows filter the deals table to that owner.
 
 **Pipeline Stage Filter Buttons** — six funnel stages displayed as a flow:
+
 ```
 Prospecting (10%) --> Discovery (20%) --> Demo (40%) --> Proposal (60%) --> Negotiation (80%) --> Closed (100%)
 ```
+
 Clicking a stage shows only deals in that stage. The filtering is client-side so that deals without a stored pipeline stage (which are assigned one deterministically) are included correctly.
 
 **How deterministic stage assignment works:**
@@ -396,6 +408,7 @@ The invoice register — a view of all invoice records.
 Dollar amounts for paid, outstanding, and total are shown alongside the counts.
 
 **Filters:**
+
 - **Search** — searches invoice number and account name simultaneously
 - **Payment status** — dropdown filter for "paid", "unpaid", "overdue", "disputed"
 - **Disputed** — toggle to show only disputed invoices
@@ -430,6 +443,7 @@ All routes are prefixed with the base URL (default: `http://localhost:8000`).
 | `DELETE` | `/deals/:id/line-items/:lineItemId` | Delete a line item. Re-runs readiness checker. |
 
 **Stage Gate on `PUT /deals/:id`:** If `dealStage: 'ready_for_invoice'` is sent and the computed `readiness_status` is `'blocked'`, the server returns:
+
 ```json
 HTTP 400
 {
@@ -482,7 +496,7 @@ HTTP 400
 ### Backend
 
 ```bash
-cd Apptrack-backend
+cd northwoods-backend
 npm install
 
 # Add your DATABASE_URL to a .env file:
@@ -513,7 +527,7 @@ npm run dev
 ### Frontend
 
 ```bash
-cd Apptrack-frontend
+cd northwoods-frontend
 npm install
 
 # Add your backend URL to a .env file:
@@ -527,16 +541,15 @@ npm run dev
 
 ## 10. Environment Variables
 
-### Backend (`Apptrack-backend/.env`)
+### Backend (`northwoods-backend/.env`)
 
 | Variable | Required | Description |
 |---|---|---|
 | `DATABASE_URL` | Yes | Postgres connection string, e.g. `postgresql://user:pass@host/db?sslmode=require` |
 | `FRONTEND_URL` | No | Allowed CORS origin in production, e.g. `https://northwoods.example.com` |
 
-### Frontend (`Apptrack-frontend/.env`)
+### Frontend (`northwoods-frontend/.env`)
 
 | Variable | Required | Description |
 |---|---|---|
 | `VITE_BACKEND_URL` | Yes | Full URL of the backend API, e.g. `http://localhost:8000` |
-
